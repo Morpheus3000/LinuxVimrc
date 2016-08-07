@@ -1,0 +1,245 @@
+set visualbell
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+"Install Simpyl Fold folding plugin
+Plugin 'tmhedberg/SimpylFold'
+
+"Auto indentation for python that handles indentation for function signature
+"spanning multiple lines
+Plugin 'vim-scripts/indentpython.vim'
+
+"NERDTree
+Plugin 'scrooloose/nerdtree'
+
+"NERDTree git Plugin
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+"Syntax checking
+Plugin 'scrooloose/syntastic'
+
+"PEP8 Flaking
+Plugin 'nvie/vim-flake8'
+
+"Pretty powerbar
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim'}
+
+"YouCompleteMe Plugin
+Bundle 'Valloric/YouCompleteMe'
+
+"UltiSnips Plugin
+Plugin 'SirVer/ultisnips'
+
+"Snippets for UltiSnips
+Plugin 'honza/vim-snippets'
+
+"Molokai Colourscheme
+Plugin 'tomasr/molokai'
+
+"Super Undo Gundo
+Plugin 'sjl/gundo.vim'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+
+"Enable type specific indetation
+filetype indent on
+"Enable type specific indentation
+filetype plugin indent on
+
+"Enable docstrings for folded code
+let g:SimpylFold_docstring_preview=1
+
+"Syntax highlighting
+let python_highlight_all=1
+syntax on
+
+"Code Folding
+set foldmethod=indent
+set foldlevel=99
+set foldenable
+set foldlevelstart=10
+set foldnestmax=10
+
+"Folding with spacebar
+nnoremap <space> za
+
+"Tab settings
+
+set tabstop=4 
+set softtabstop=4 
+set shiftwidth=4 
+
+"Python PEP8 formatting
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix |
+    \ set encoding=utf-8
+
+"Full stack development formatting
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2
+
+"Enable Filetype Plugins
+filetype plugin on
+
+"C++ specific settings
+au BufNewFile,BufRead *.cpp
+    \ set noexpandtab |
+    "Set line width to 110 characters
+    \ set colorcolumn=110 |
+    "set width left with color 
+    \ highlight ColorColumn ctermbg=darkgray
+
+
+
+"Set upi (g)et(f)ile of vim
+let &path.="/usr/local/include,/usr/include,"
+
+"Line numbers
+set nu
+
+"System clipboards
+set clipboard=unnamed
+
+"Backspace fix
+set backspace=indent,eol,start
+
+"Colourscheme
+"colorscheme koehler
+colorscheme molokai
+
+"Change tabs to spaces (compatibility issues)
+set expandtab
+
+"Show the last command entered
+set showcmd
+
+"Show a visual cue for the line you are on: Too gaudy
+"set cursorline
+
+"Autocompletion pop up menu for Vim commands in Command mode
+set wildmenu
+
+"Faster macros by not redrawing in the middle of macros
+set lazyredraw
+
+"Show matching pair highlights
+set showmatch
+
+"Live search
+set incsearch
+
+"Highlight matches
+set hlsearch
+
+"Turn off search highlights
+nnoremap <leader><space> nohlsearch<CR>
+
+"Move entire Line movements
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv==gv
+vnoremap <A-k> :m '<-2<CR>gv==gv
+
+"Enable Powerline
+set rtp+=/.vim/bundle/powerline/powerline/bindings/vim
+set laststatus=2
+set showtabline=1
+set noshowmode
+set t_Co=256
+
+"Move between wrapped lines
+nnoremap j gj
+nnoremap k gk
+
+"Move to beginning and end of a line
+nnoremap B ^
+nnoremap E $
+
+"Highlight last inserted text
+nnoremap gV `[`v`]
+
+"Toggle Gundo
+nnoremap <leader>u :GundoToggle<CR>
+
+"Set custom leader
+let mapleader=","
+
+"Save session
+nnoremap <leader>s :mksession<CR>
+
+"SetUp UltiSnip
+let g:UltiSnipsExpandTrigger="<tab><tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+"Set Timeout to low, so that single tab isn't sluggish.
+set timeoutlen=200 ttimeoutlen=200
+
+"Set UltiSnipsEdit window to be Vertical by default
+let g:UltiSnipsEditSplit="Vertical"
+
+"Autostart NERDTree when no files are specified with vim
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+"NERDTree keyboard shortcut
+map <C-n> :NERDTreeToggle<CR>
+
+
+"Git symbol changes for NERDTree git plugin
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
+
+"Set C family language support for YouCompleteMe
+let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+
+"Relative Numbers & Absolute numbers settings:
+"Define switching Function
+function! NumberToggle()
+    if(&relativenumber==1)
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+"Bind switching to <F3>
+nnoremap <F3> :call NumberToggle()<cr>
+
+"Automatically switch to normal numbering when focus is lost
+au FocusLost * :set number
+au FocusGained * :set relativenumber
+
+"Switch to normal numbers when entering insert mode
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
+
